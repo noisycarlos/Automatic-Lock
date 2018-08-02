@@ -2,7 +2,7 @@
 
 import jwt, datetime
 
-secret = 'abcdef123456789'
+secret = 'abcdef123456789' #Make sure it matches the one in auto_lock.py
 
 command = raw_input('Command: ')
 
