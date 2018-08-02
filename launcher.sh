@@ -1,0 +1,1 @@
+sudo python /home/pi/auto_lock.py
