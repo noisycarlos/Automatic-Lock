@@ -6,4 +6,5 @@ secret = 'abcdef123456789'
 
 command = raw_input('Command: ')
 
-print (jwt.encode({'command':command,'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=10)}, secret))
+result = jwt.encode({'command':command,'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=10)}, secret)
+print(result)
