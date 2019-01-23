@@ -77,27 +77,30 @@ def start():
         global data_is_encrypted
         if connected:
             while 1:
-                data = conn.recv(BUFFER_SIZE)
-                if(not data or len(data) is 0):
-                    break
-                data = data.strip()
-                command = data
-                invalid = False
+                try:
+                    data = conn.recv(BUFFER_SIZE)
+                    if(not data or len(data) is 0):
+                        break
+                    data = data.strip()
+                    command = data
+                    invalid = False
 
-                if(data_is_encrypted):
-                    try:
-                        decoded = jwt.decode(data, secret, algorithms=['HS256'])
-                        command = str(decoded["command"])
-                    except jwt.ExpiredSignatureError:
-                        result = command = "Expired Command"                        
-                        invalid = True
-                    except jwt.exceptions.DecodeError:
-                        result = command = "Invalid Code"
-                        invalid = True
-    
-                print "Received " + command
-                if(not invalid):
-                    result = process(command)
-                conn.send(result)
+                    if(data_is_encrypted):
+                        try:
+                            decoded = jwt.decode(data, secret, algorithms=['HS256'])
+                            command = str(decoded["command"])
+                        except jwt.ExpiredSignatureError:
+                            result = command = "Expired Command"                        
+                            invalid = True
+                        except jwt.exceptions.DecodeError:
+                            result = command = "Invalid Code"
+                            invalid = True
+        
+                    print "Received " + command
+                    if(not invalid):
+                        result = process(command)
+                    conn.send(result)
+                except Exception as E:
+                    print("Exception: " + E.message)
 start()
 close_all()
